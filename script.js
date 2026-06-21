@@ -16,13 +16,34 @@ const randomRGB = () => {
     return Math.floor(Math.random() * (255 + 1));
 }
 
+const getAlpha = (rgba) => {
+    const lastComma = rgba.lastIndexOf(",");
+    const lastCloseBracket = rgba.lastIndexOf(")");
+    const result = Number(rgba.slice(lastComma + 1, lastCloseBracket));
+    if (result > 1) {
+        // For rgb values (without alpha), alpha is 1
+        return 1;
+    } else {
+        return result;
+    }
+}
+
+const changeAlpha = (rgba, alpha) => {
+    const lastComma = rgba.lastIndexOf(",");
+    const lastCloseBracket = rgba.lastIndexOf(")");
+    return rgba.slice(0, lastComma + 1) + alpha + rgba.slice(lastCloseBracket);
+}
+
 const colorDiv = event => {
     const target = event.target;
+    const alpha = getAlpha(target.style.backgroundColor);
     if (target.style.backgroundColor === "") {
         const redValue = randomRGB();
         const greenValue = randomRGB();
         const blueValue = randomRGB();
-        target.style.backgroundColor = `rgb(${redValue},${greenValue},${blueValue})`;
+        target.style.backgroundColor = `rgb(${redValue}, ${greenValue}, ${blueValue}, 0.1)`;
+    } else if (alpha < 1) {
+        target.style.backgroundColor = changeAlpha(target.style.backgroundColor, alpha + 0.1)
     }
 }
 
@@ -70,9 +91,3 @@ createGrid(squaresPerSide);
 const button = document.querySelector("button");
 button.textContent = "New Grid";
 button.addEventListener("click", replaceGrid);
-
-// TODO
-// Transform the behavior of a square when interacting with the mouse by introducing a series of modifications.
-// 2. Additionally, implement a progressive darkening effect where each interaction darkens the square by 10%. The goal is to achieve a fully black (or completely colored) square in only ten interactions.
-// Hint: The opacity CSS property is useful here. To learn how to use it, check this MDN docs article about the opacity CSS property.
-// You can choose to do either one or both of these challenges, it’s up to you.
