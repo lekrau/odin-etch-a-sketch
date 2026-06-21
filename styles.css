@@ -1,3 +1,7 @@
+:root {
+    --squares-per-side: 16;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -14,11 +18,16 @@ body {
 }
 
 .container div {
-    width: calc(min(80vh, 80vw) / 16);
-    height: calc(min(80vh, 80vw) / 16);
+    width: calc(min(80vh, 80vw) / var(--squares-per-side));
+    height: calc(min(80vh, 80vw) / var(--squares-per-side));
     border: 1px solid black;
 }
 
 .colored {
     background-color: black;
+}
+
+h1 {
+    display: inline-block;
+    margin-right: 2rem;
 }
