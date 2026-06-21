@@ -18,3 +18,7 @@ body {
     height: calc(min(80vh, 80vw) / 16);
     border: 1px solid black;
 }
+
+.colored {
+    background-color: black;
+}
