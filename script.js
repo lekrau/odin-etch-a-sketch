@@ -1,10 +1,10 @@
 "use strict"
 
 // FUNCTIONS
-const createDiv = () => {
+const createGridSquare = () => {
     const grid = document.querySelector(".container");
-    const div = document.createElement("div");
-    grid.appendChild(div);
+    const square = document.createElement("div");
+    grid.appendChild(square);
 }
 
 const addEventListeners = () => {
@@ -49,7 +49,7 @@ const colorDiv = event => {
 
 const createGrid = () => {
     for (let i = 0; i < squaresPerSide * squaresPerSide; i++) {
-        createDiv();
+        createGridSquare();
     }
     addEventListeners();
 }
@@ -60,10 +60,11 @@ const removeGrid = () => {
 }
 
 const getUserChoice = () => {
-    const message = "How many squares per side would you like?\n(Max: 100)";
     const standard = 16;
+    const max = 100;
+    const message = `How many squares per side would you like?\n(Max: ${max})`;
     let result = prompt(message, standard);
-    while (result > 100) {
+    while (result > max) {
         result = prompt(message + "\nPlease respect the max!", standard);
     }
     return result;
@@ -72,12 +73,15 @@ const getUserChoice = () => {
 const replaceGrid = () => {
     squaresPerSide = getUserChoice();
     if (squaresPerSide > 0) {
+        if (squaresPerSide % 1 !== 0) {
+            squaresPerSide = Math.round(squaresPerSide);
+            alert(`Decimals are not allowed, input was round to ${squaresPerSide}.`);
+        }
         root.style.setProperty("--squares-per-side", squaresPerSide);
-        alert(squaresPerSide);
         removeGrid();
-        createGrid(squaresPerSide);
+        createGrid();
     } else {
-        alert("Please enter a proper number.")
+        alert("Please enter a proper number (> 0).")
     }
 }
 
@@ -86,7 +90,7 @@ const root = document.querySelector(":root");
 const rootStyle = getComputedStyle(root);
 let squaresPerSide = rootStyle.getPropertyValue("--squares-per-side");
 
-createGrid(squaresPerSide);
+createGrid();
 
 const button = document.querySelector("button");
 button.textContent = "New Grid";
