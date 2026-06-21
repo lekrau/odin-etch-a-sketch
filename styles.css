@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    width: min(80vh, 80vw);
+    margin: auto;
+}
+
+.container div {
+    width: calc(min(80vh, 80vw) / 16);
+    height: calc(min(80vh, 80vw) / 16);
+    border: 1px solid black;
+}
